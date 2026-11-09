@@ -1,0 +1,66 @@
+name: Build webOS IPK
+
+on:
+  push:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run package:ipk
+      - run: npm run verify:compat
+      - shell: pwsh
+        run: Compress-Archive -LiteralPath release/romana-webos-raw -DestinationPath release/romana-webos-raw.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: romana-webos
+          path: |
+            release/*.ipk
+            release/romana-webos-raw.zip
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: romana-release-${{ github.ref }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: romana-webos
+          path: release
+      - name: Upload release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.event.release.tag_name || github.ref_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          packages=(release/*.ipk)
+          test "${#packages[@]}" -eq 1
+          expected="v$(basename "${packages[0]}" | cut -d_ -f2)"
+          test "$TAG" = "$expected"
+          if gh release view -- "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "${packages[0]}" release/romana-webos-raw.zip --clobber
+          else
+            gh release create "$TAG" "${packages[0]}" release/romana-webos-raw.zip --verify-tag --generate-notes
+          fi

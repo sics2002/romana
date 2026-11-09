@@ -1,0 +1,6 @@
+{
+  "name": "com.cinemanatv.app.news",
+  "version": "0.8.0",
+  "main": "service.cjs",
+  "description": "Public entertainment feed reader for Cinemana TV"
+}

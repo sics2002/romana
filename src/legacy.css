@@ -1,0 +1,47 @@
+/* Layout fallbacks for webOS 3.x; modern builds retain their existing stylesheet. */
+html{font-size:28px}button{margin:4px}img{object-fit:cover}
+.poster-grid{display:flex;flex-wrap:wrap}.poster-grid>.poster-card{flex:0 0 14%;width:14%;margin:1%}
+.episode-grid{display:flex;flex-wrap:wrap}.episode-grid>button{width:30%;margin:1%}
+.settings-modern{display:flex;flex-wrap:wrap}.settings-modern>section,.settings-modern>.setting-row{width:46%;margin:1%}.settings-modern>.contact-row{width:96%}
+.card-rail>.poster-card{margin-left:1rem}.hero-actions>button,.detail-actions>button{margin-left:.7rem}
+.hero-backdrop,.detail-backdrop{top:0;right:0;bottom:0;left:0}.hero:before{top:0;right:0;bottom:0;left:0}
+.intro,.intro-stage{top:0;right:0;bottom:0;left:0}.intro{display:flex;align-items:center;justify-content:center}.intro-word{font-size:80px}.intro-letter{opacity:1;transform:none;animation:none}
+.boot-mark{display:flex;align-items:center;justify-content:center}
+.tv-player,.family-mask{top:0;right:0;bottom:0;left:0}.player-video{width:100%;height:100%}
+.player-controls{left:0;right:0;bottom:0}.remote-hint{left:0;right:0}
+.search-form{display:flex;flex-wrap:wrap}.search-form>input{width:40%}
+
+/* Scope and paint-order corrections: this engine has neither grid nor isolation. */
+#intro{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;text-align:center}
+.intro-lockup{margin:auto;max-width:90vw;direction:ltr}.intro-symbol{margin-right:2.5vw}.intro-type{display:block;text-align:left}.intro-word{font-size:78px}.intro-credit{font-size:30px;text-align:right}
+.hero{z-index:0}.hero-backdrop{z-index:0}.hero:before{z-index:1}.hero-copy,.hero-arrows,.hero-count{position:relative;z-index:2}.hero-count,.hero-arrows{position:absolute}
+.detail-layout{position:relative;z-index:0}.detail-backdrop{z-index:0}.detail-layout:before{z-index:1}.detail-poster,.detail-copy{position:relative;z-index:2}
+#app *,#player-overlay *{transition:none!important;animation:none!important;will-change:auto!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.poster-card:focus{transform:none!important}.poster-art{background:#161a22}.poster-art img{width:100%;height:100%}
+
+html.legacy-playing,html.legacy-playing body{height:100%;overflow:hidden!important}
+html.legacy-playing #app{display:none!important}
+#player-overlay.tv-player{position:fixed!important;left:0!important;top:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;overflow:hidden!important;margin:0!important;z-index:10000!important}
+#player-overlay .player-video{position:absolute!important;left:0!important;top:0!important;width:100%!important;height:100%!important;margin:0!important}
+.home-more-sections{display:block;margin:1rem auto 4rem;padding:1rem 2rem}
+
+/* Reserve the image area before download: Chromium 38 ignores aspect-ratio. */
+.poster-art{height:14.7rem;min-height:14.7rem}.poster-art img{position:absolute;left:0;top:0;width:100%;height:100%}
+
+/* Keep the TV viewport fixed; only the content area owns page scrolling. */
+html.legacy-tv,html.legacy-tv body{height:100%;overflow:hidden!important}
+.legacy-tv #content{position:fixed;top:0;left:0;right:0;bottom:4vh;height:96vh;overflow-y:auto;overflow-x:hidden;padding-bottom:4vh}
+
+:root.legacy-tv[data-font-size=small]{font-size:24px}:root.legacy-tv[data-font-size=medium]{font-size:28px}:root.legacy-tv[data-font-size=large]{font-size:31px}
+:root.legacy-tv[data-theme=light],:root.legacy-tv[data-theme=light] body{background:#e9edf4;color:#182032}
+:root.legacy-tv[data-theme=light] .setting-row,:root.legacy-tv[data-theme=light] .settings-modern,:root.legacy-tv[data-theme=light] .empty-state{background:#e9edf4;color:#182032}
+:root.legacy-tv[data-theme=light] .card-title{color:#182032}
+
+/* Keep the tested FHD scale while leaving room for controls at HD. */
+@media(max-width:1366px){
+ :root.legacy-tv[data-font-size=small]{font-size:17px}
+ :root.legacy-tv[data-font-size=medium]{font-size:19px}
+ :root.legacy-tv[data-font-size=large]{font-size:22px}
+ .legacy-tv .intro-word{font-size:56px}
+ .legacy-tv .intro-credit{font-size:22px}
+}

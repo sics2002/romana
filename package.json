@@ -1,0 +1,36 @@
+{
+  "name": "romana-tv",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Independent Arabic webOS TV client and playback verification tools",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "backup": "powershell.exe -NoProfile -File tools/backup.ps1 -Label manual",
+    "build": "node tools/build.mjs",
+    "build-proof": "node tools/build.mjs --proof",
+    "package": "node tools/package.mjs",
+    "package-proof": "node tools/package.mjs --proof",
+    "serve": "node tools/serve.mjs",
+    "test": "node --test",
+    "build:webos": "node tools/release-webos.mjs",
+    "verify:compat": "node verify-compat.js",
+    "package:ipk": "node tools/release-webos.mjs --package"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.0.9",
+    "@babel/preset-env": "^8.0.7",
+    "@webos-tools/cli": "3.2.6",
+    "abortcontroller-polyfill": "^1.7.8",
+    "acorn": "8.15.0",
+    "autoprefixer": "^10.6.2",
+    "core-js": "^3.51.0",
+    "esbuild": "0.28.2",
+    "intersection-observer": "^0.12.2",
+    "postcss": "^8.5.32",
+    "postcss-custom-properties": "^15.0.4",
+    "whatwg-fetch": "^3.6.20"
+  }
+}

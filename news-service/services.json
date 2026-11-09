@@ -1,0 +1,5 @@
+{
+  "id": "com.cinemanatv.app.news",
+  "description": "Public entertainment feed reader",
+  "services": [{ "name": "com.cinemanatv.app.news", "description": "Fixed public RSS feeds" }]
+}

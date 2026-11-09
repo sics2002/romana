@@ -1,0 +1,15 @@
+{
+  "id": "com.cinemanatv.app",
+  "title": "ROMANA",
+  "type": "web",
+  "main": "index.html",
+  "icon": "icon.png",
+  "version": "1.0.0",
+  "vendor": "Independent personal project",
+  "appDescription": "ROMANA by sics2002",
+  "resolution": "1920x1080",
+  "disableBackHistoryAPI": true,
+  "requiredACG": [],
+  "bgColor": "#080d16",
+  "largeIcon": "largeIcon.png"
+}
